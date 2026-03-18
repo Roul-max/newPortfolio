@@ -76,6 +76,7 @@ export function Navbar() {
             className={`fixed inset-0 z-40 bg-background/40 transition-backdrop md:hidden ${
               isScrolled ? "backdrop-blur-sm" : "backdrop-blur-0"
             }`}
+            onClick={() => setIsMobileMenuOpen(false)}
           />
         <motion.div
           initial={{ opacity: 0, y: -10 }}
@@ -95,6 +96,14 @@ export function Navbar() {
                 </a>
               </li>
             ))}
+            <li className="pt-2 border-t border-border flex items-center justify-between gap-3">
+              <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label="Toggle theme">
+                {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+              </Button>
+              <Button variant="outline" onClick={() => setIsMobileMenuOpen(false)}>
+                Close Menu
+              </Button>
+            </li>
             <li className="pt-2 border-t border-border">
               <a href="#contact">
                 <Button className="w-full">Let's Talk</Button>

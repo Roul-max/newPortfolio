@@ -18,9 +18,8 @@ export function AIAssistant() {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
-      role: "system",
-      content:
-        "Share your product, target users, and timeline. I will reply with a clear plan and next steps.",
+      role: "assistant",
+      content: "Hi! I’m Rohit’s AI assistant. How can I help you today?",
     },
   ]);
   const [isLoading, setIsLoading] = useState(false);
@@ -39,7 +38,7 @@ export function AIAssistant() {
     setMessage("");
 
     try {
-      const history = [SYSTEM_PROMPT, ...messages.filter((msg) => msg.role !== "system"), nextUserMessage];
+      const history = [SYSTEM_PROMPT, ...messages, nextUserMessage];
 
       const response = await fetch("/api/ai", {
         method: "POST",
@@ -64,8 +63,6 @@ export function AIAssistant() {
       setIsLoading(false);
     }
   };
-
-  const lastAssistantReply = [...messages].reverse().find((msg) => msg.role === "assistant");
 
   return (
     <div className="fixed bottom-6 right-4 sm:right-6 z-50">
@@ -113,12 +110,6 @@ export function AIAssistant() {
                   {msg.content}
                 </div>
               ))}
-
-              {lastAssistantReply && (
-                <div className="rounded-2xl border border-dashed border-border/60 bg-background/70 px-4 py-3 text-xs text-muted-foreground">
-                  Type another message to continue the chat.
-                </div>
-              )}
 
               {error && (
                 <div className="rounded-2xl border border-red-200/60 bg-red-50 px-4 py-3 text-xs text-red-700">
