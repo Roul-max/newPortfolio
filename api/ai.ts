@@ -1,5 +1,10 @@
-export const config = {
+﻿export const config = {
   runtime: "edge",
+};
+
+type ChatMessage = {
+  role: "system" | "user" | "assistant";
+  content: string;
 };
 
 export default async function handler(request: Request): Promise<Response> {
@@ -20,9 +25,10 @@ export default async function handler(request: Request): Promise<Response> {
 
   try {
     const body = await request.json();
-    const message = String(body?.message ?? "").trim();
-    if (!message) {
-      return new Response(JSON.stringify({ error: "Message is required." }), {
+    const messages = Array.isArray(body?.messages) ? (body.messages as ChatMessage[]) : [];
+
+    if (!messages.length) {
+      return new Response(JSON.stringify({ error: "Messages are required." }), {
         status: 400,
         headers: { "Content-Type": "application/json" },
       });
@@ -37,15 +43,8 @@ export default async function handler(request: Request): Promise<Response> {
       body: JSON.stringify({
         model: "llama-3.1-8b-instant",
         temperature: 0.4,
-        max_tokens: 300,
-        messages: [
-          {
-            role: "system",
-            content:
-              "You are a concise product strategy assistant. Provide a short plan, stack suggestion, and timeline.",
-          },
-          { role: "user", content: message },
-        ],
+        max_tokens: 350,
+        messages,
       }),
     });
 

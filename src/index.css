@@ -133,6 +133,7 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 96px;
+  scrollbar-gutter: stable;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -143,4 +144,30 @@ html {
 
 section {
   scroll-margin-top: 96px;
+}
+
+/* Smoother, premium scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(14, 75, 79, 0.35) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: rgba(14, 75, 79, 0.35);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(14, 75, 79, 0.5);
 }
